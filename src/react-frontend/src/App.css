@@ -1,0 +1,236 @@
+/**
+ * Main App Styles
+ * 
+ * Student Name: Khaleda Islam
+ * Student ID: 301504989
+ * Date: April 5, 2026
+ */
+
+/* ==================== Global Styles ==================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* ==================== Header ==================== */
+.App-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 30px 20px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.header-content h1 {
+  margin: 0;
+  font-size: 2.5em;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-subtitle {
+  margin: 10px 0 20px;
+  font-size: 1.2em;
+  opacity: 0.95;
+}
+
+.header-info {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.status-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== Main Content ==================== */
+.App-main {
+  flex: 1;
+  padding: 0;
+  width: 100%;
+}
+
+/* ==================== Footer ==================== */
+.App-footer {
+  background: #2c3e50;
+  color: white;
+  padding: 25px 20px;
+  text-align: center;
+  margin-top: auto;
+}
+
+.App-footer p {
+  margin: 8px 0;
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: #74b9ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #0984e3;
+  text-decoration: underline;
+}
+
+/* ==================== Breadcrumb Navigation ==================== */
+.App-breadcrumb {
+  background: white;
+  padding: 15px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95em;
+  color: #4a5568;
+}
+
+.breadcrumb-back {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb-back:hover {
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.breadcrumb-back:active {
+  transform: translateX(-2px);
+}
+
+.breadcrumb-divider {
+  color: #cbd5e0;
+  font-size: 1.2em;
+}
+
+.breadcrumb-current {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+/* ==================== Loading Animation (Legacy) ==================== */
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  animation: App-logo-spin infinite 20s linear;
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+  .header-content h1 {
+    font-size: 2em;
+  }
+
+  .header-subtitle {
+    font-size: 1em;
+  }
+
+  .header-info {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .status-badge {
+    width: fit-content;
+  }
+
+  .App-breadcrumb {
+    padding: 12px 20px;
+    font-size: 0.9em;
+  }
+
+  .breadcrumb-back {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  .breadcrumb-current {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content h1 {
+    font-size: 1.6em;
+  }
+
+  .App-header {
+    padding: 20px 15px;
+  }
+
+  .App-breadcrumb {
+    padding: 10px 15px;
+    font-size: 0.85em;
+  }
+
+  .breadcrumb-back {
+    padding: 6px 12px;
+    font-size: 0.85em;
+  }
+
+  .breadcrumb-current {
+    max-width: 150px;
+  }
+
+  .App-footer {
+    padding: 20px 15px;
+  }
+
+  .App-footer p {
+    font-size: 0.8em;
+  }
+}

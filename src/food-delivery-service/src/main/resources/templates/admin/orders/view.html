@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2>Order Details</h2>
+
+            <h3>Order Information</h3>
+            <div class="detail-view">
+                <div class="detail-row">
+                    <div class="detail-label">Order ID:</div>
+                    <div class="detail-value" th:text="${order.id}">ID</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Order Date:</div>
+                    <div class="detail-value" th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}">Date</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status:</div>
+                    <div class="detail-value">
+                        <span th:class="'badge badge-' + ${#strings.toLowerCase(order.status)}" 
+                              th:text="${order.status}">Status</span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Payment Status:</div>
+                    <div class="detail-value">
+                        <span th:if="${order.paymentStatus == 'COMPLETED'}" class="badge badge-active">Completed</span>
+                        <span th:if="${order.paymentStatus == 'PENDING'}" class="badge badge-pending">Pending</span>
+                        <span th:if="${order.paymentStatus == 'FAILED'}" class="badge badge-cancelled">Failed</span>
+                        <span th:if="${order.paymentStatus == 'REFUNDED'}" class="badge badge-warning">Refunded</span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Payment Method:</div>
+                    <div class="detail-value" th:text="${order.paymentMethod} ?: 'N/A'">Method</div>
+                </div>
+            </div>
+
+            <h3>Customer & Restaurant</h3>
+            <div class="detail-view">
+                <div class="detail-row">
+                    <div class="detail-label">Customer:</div>
+                    <div class="detail-value">
+                        <span th:text="${customer?.name} ?: ${order.userId}">Customer Name</span>
+                        <a th:if="${customer}" th:href="@{/admin/customers/{id}(id=${customer.id})}" class="btn btn-small btn-primary" style="margin-left: 1rem;">View Profile</a>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Customer Email:</div>
+                    <div class="detail-value" th:text="${customer?.email} ?: 'N/A'">Email</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Restaurant:</div>
+                    <div class="detail-value">
+                        <span th:text="${restaurant?.name} ?: ${order.restaurantId}">Restaurant Name</span>
+                        <a th:if="${restaurant}" th:href="@{/admin/restaurants/{id}(id=${restaurant.id})}" class="btn btn-small btn-primary" style="margin-left: 1rem;">View Restaurant</a>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Delivery Information</h3>
+            <div class="detail-view">
+                <div class="detail-row">
+                    <div class="detail-label">Delivery Address:</div>
+                    <div class="detail-value" th:text="${order.deliveryAddress}">Address</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">City:</div>
+                    <div class="detail-value" th:text="${order.deliveryCity} ?: 'N/A'">City</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Postal Code:</div>
+                    <div class="detail-value" th:text="${order.deliveryPostalCode} ?: 'N/A'">Postal Code</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Contact Number:</div>
+                    <div class="detail-value" th:text="${order.contactNumber} ?: 'N/A'">Phone</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Estimated Delivery:</div>
+                    <div class="detail-value" th:text="${order.estimatedDeliveryTime} ? ${#temporals.format(order.estimatedDeliveryTime, 'yyyy-MM-dd HH:mm')} : 'N/A'">Time</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Actual Delivery:</div>
+                    <div class="detail-value" th:text="${order.actualDeliveryTime} ? ${#temporals.format(order.actualDeliveryTime, 'yyyy-MM-dd HH:mm')} : 'Not Delivered'">Time</div>
+                </div>
+            </div>
+
+            <h3>Order Items</h3>
+            <table th:if="${order.items != null and !#lists.isEmpty(order.items)}">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${order.items}">
+                        <td th:text="${item.foodName}">Item</td>
+                        <td th:text="${item.quantity}">Qty</td>
+                        <td>$<span th:text="${#numbers.formatDecimal(item.price, 1, 2)}">0.00</span></td>
+                        <td>$<span th:text="${#numbers.formatDecimal(item.price * item.quantity, 1, 2)}">0.00</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p th:if="${order.items == null or #lists.isEmpty(order.items)}">No items in this order.</p>
+
+            <h3>Price Breakdown</h3>
+            <div class="detail-view">
+                <div class="detail-row">
+                    <div class="detail-label">Tax Amount:</div>
+                    <div class="detail-value">$<span th:text="${#numbers.formatDecimal(order.taxAmount, 1, 2)}">0.00</span></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Delivery Fee:</div>
+                    <div class="detail-value">$<span th:text="${#numbers.formatDecimal(order.deliveryFee, 1, 2)}">0.00</span></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Discount Amount:</div>
+                    <div class="detail-value">-$<span th:text="${#numbers.formatDecimal(order.discountAmount, 1, 2)}">0.00</span></div>
+                </div>
+                <div class="detail-row" style="font-weight: bold; font-size: 1.1rem;">
+                    <div class="detail-label">Total Price:</div>
+                    <div class="detail-value">$<span th:text="${#numbers.formatDecimal(order.totalPrice, 1, 2)}">0.00</span></div>
+                </div>
+            </div>
+
+            <div th:if="${order.specialInstructions}" style="margin-top: 1.5rem;">
+                <h3>Special Instructions</h3>
+                <div class="detail-view">
+                    <p th:text="${order.specialInstructions}">Instructions</p>
+                </div>
+            </div>
+
+            <!-- Update Status Section -->
+            <div style="margin-top: 2rem; padding: 1.5rem; background: #f7fafc; border-radius: 8px;">
+                <h3>Update Order Status</h3>
+                <form th:action="@{/admin/orders/{id}/status(id=${order.id})}" method="post" style="display: flex; gap: 1rem; align-items: end;">
+                    <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                        <label for="newStatus">New Status</label>
+                        <select id="newStatus" name="status" required>
+                            <option value="PENDING" th:selected="${order.status == 'PENDING'}">Pending</option>
+                            <option value="CONFIRMED" th:selected="${order.status == 'CONFIRMED'}">Confirmed</option>
+                            <option value="PREPARING" th:selected="${order.status == 'PREPARING'}">Preparing</option>
+                            <option value="OUT_FOR_DELIVERY" th:selected="${order.status == 'OUT_FOR_DELIVERY'}">Out for Delivery</option>
+                            <option value="DELIVERED" th:selected="${order.status == 'DELIVERED'}">Delivered</option>
+                            <option value="CANCELLED" th:selected="${order.status == 'CANCELLED'}">Cancelled</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+
+            <div class="form-actions">
+                <a th:href="@{/admin/orders/edit/{id}(id=${order.id})}" class="btn btn-warning">Edit Order</a>
+                <a th:href="@{/admin/orders}" class="btn btn-secondary">Back to List</a>
+                <a th:href="@{/admin/orders/delete/{id}(id=${order.id})}" 
+                   class="btn btn-danger"
+                   onclick="return confirm('Are you sure you want to delete this order?')">Delete</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

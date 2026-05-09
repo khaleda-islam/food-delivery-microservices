@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Items List - Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2>Food Items Management</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <a th:href="@{/admin/foods/new}" class="btn btn-success">➕ Add New Food Item</a>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <form th:action="@{/admin/foods}" method="get">
+                    <div class="form-group">
+                        <label for="restaurantFilter">Filter by Restaurant</label>
+                        <select id="restaurantFilter" name="restaurantId" onchange="this.form.submit()">
+                            <option value="">All Restaurants</option>
+                            <option th:each="restaurant : ${restaurants}" 
+                                    th:value="${restaurant.id}" 
+                                    th:text="${restaurant.name}"
+                                    th:selected="${selectedRestaurantId == restaurant.id}">Restaurant</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Restaurant ID</th>
+                        <th>Prep Time</th>
+                        <th>Status</th>
+                        <th>Dietary</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="food : ${foods}">
+                        <td th:text="${food.name}">Food Name</td>
+                        <td th:text="${food.category}">Category</td>
+                        <td>$<span th:text="${#numbers.formatDecimal(food.price, 1, 2)}">0.00</span></td>
+                        <td th:text="${food.restaurantId}">Restaurant ID</td>
+                        <td th:text="${food.preparationTimeMinutes} ? ${food.preparationTimeMinutes} + ' min' : 'N/A'">30 min</td>
+                        <td>
+                            <span th:if="${food.isAvailable}" class="badge badge-active">Available</span>
+                            <span th:unless="${food.isAvailable}" class="badge badge-inactive">Unavailable</span>
+                        </td>
+                        <td>
+                            <span th:if="${food.isVegetarian}" class="badge badge-active">🥗 Veg</span>
+                            <span th:if="${food.isVegan}" class="badge badge-active">🌱 Vegan</span>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/foods/{id}(id=${food.id})}" class="btn btn-primary btn-small">View</a>
+                            <a th:href="@{/admin/foods/edit/{id}(id=${food.id})}" class="btn btn-warning btn-small">Edit</a>
+                            <a th:href="@{/admin/foods/delete/{id}(id=${food.id})}" 
+                               class="btn btn-danger btn-small"
+                               onclick="return confirm('Are you sure you want to delete this food item?')">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${#lists.isEmpty(foods)}" class="empty-state">
+                <p>No food items found. Add your first menu item!</p>
+                <a th:href="@{/admin/foods/new}" class="btn btn-primary">Add Food Item</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

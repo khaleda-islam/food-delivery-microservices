@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Details - Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2>Restaurant Details</h2>
+
+            <div class="detail-view">
+                <div class="detail-row">
+                    <div class="detail-label">Restaurant ID:</div>
+                    <div class="detail-value" th:text="${restaurant.id}">ID</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Name:</div>
+                    <div class="detail-value" th:text="${restaurant.name}">Name</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">City:</div>
+                    <div class="detail-value" th:text="${restaurant.city}">City</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Cuisine Type:</div>
+                    <div class="detail-value" th:text="${restaurant.cuisineType}">Cuisine</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Rating:</div>
+                    <div class="detail-value">⭐ <span th:text="${restaurant.rating}">4.5</span></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone Number:</div>
+                    <div class="detail-value" th:text="${restaurant.phoneNumber} ?: 'N/A'">Phone</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Address:</div>
+                    <div class="detail-value" th:text="${restaurant.address} ?: 'N/A'">Address</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status:</div>
+                    <div class="detail-value">
+                        <span th:if="${restaurant.isActive}" class="badge badge-active">Active</span>
+                        <span th:unless="${restaurant.isActive}" class="badge badge-inactive">Inactive</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a th:href="@{/admin/restaurants/edit/{id}(id=${restaurant.id})}" class="btn btn-warning">Edit Restaurant</a>
+                <a th:href="@{/admin/foods(restaurantId=${restaurant.id})}" class="btn btn-primary">View Menu Items</a>
+                <a th:href="@{/admin/restaurants}" class="btn btn-secondary">Back to List</a>
+                <a th:href="@{/admin/restaurants/delete/{id}(id=${restaurant.id})}" 
+                   class="btn btn-danger"
+                   onclick="return confirm('Are you sure you want to delete this restaurant?')">Delete</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

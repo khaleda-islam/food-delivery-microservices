@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers List - Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2>Customer Management</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <a th:href="@{/admin/customers/new}" class="btn btn-success">➕ Add New Customer</a>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="customer : ${customers}">
+                        <td th:text="${customer.name}">Customer Name</td>
+                        <td th:text="${customer.email}">Email</td>
+                        <td th:text="${customer.phoneNumber}">Phone</td>
+                        <td th:text="${customer.city} ?: 'N/A'">City</td>
+                        <td>
+                            <span th:if="${customer.role == 'ADMIN'}" class="badge badge-warning">Admin</span>
+                            <span th:if="${customer.role == 'CUSTOMER'}" class="badge badge-primary">Customer</span>
+                            <span th:if="${customer.role == 'DELIVERY_PARTNER'}" class="badge badge-success">Delivery Partner</span>
+                        </td>
+                        <td>
+                            <span th:if="${customer.isActive}" class="badge badge-active">Active</span>
+                            <span th:unless="${customer.isActive}" class="badge badge-inactive">Inactive</span>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/customers/{id}(id=${customer.id})}" class="btn btn-primary btn-small">Profile</a>
+                            <a th:href="@{/admin/customers/edit/{id}(id=${customer.id})}" class="btn btn-warning btn-small">Edit</a>
+                            <a th:href="@{/admin/customers/delete/{id}(id=${customer.id})}" 
+                               class="btn btn-danger btn-small"
+                               onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${#lists.isEmpty(customers)}" class="empty-state">
+                <p>No customers found. Add your first customer!</p>
+                <a th:href="@{/admin/customers/new}" class="btn btn-primary">Add Customer</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Edit Restaurant' : 'Add Restaurant'">Restaurant Form</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2 th:text="${isEdit} ? 'Edit Restaurant' : 'Add New Restaurant'">Restaurant Form</h2>
+
+            <form th:action="${isEdit} ? @{/admin/restaurants/update/{id}(id=${restaurant.id})} : @{/admin/restaurants}" 
+                  th:object="${restaurant}" method="post">
+
+                <div class="form-group">
+                    <label for="name">Restaurant Name *</label>
+                    <input type="text" id="name" th:field="*{name}" required>
+                    <small>Enter the restaurant name (2-100 characters)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input type="text" id="city" th:field="*{city}" required>
+                    <small>City where the restaurant is located</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="cuisineType">Cuisine Type *</label>
+                    <input type="text" id="cuisineType" th:field="*{cuisineType}" required>
+                    <small>Type of cuisine (e.g., Italian, Chinese, Indian)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="rating">Rating *</label>
+                    <input type="number" id="rating" th:field="*{rating}" 
+                           step="0.1" min="0" max="5" required>
+                    <small>Rating from 0.0 to 5.0</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}">
+                    <small>Contact phone number (optional)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" th:field="*{address}"></textarea>
+                    <small>Full address (optional)</small>
+                </div>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" id="isActive" th:field="*{isActive}">
+                    <label for="isActive">Restaurant is Active</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" 
+                            th:text="${isEdit} ? 'Update Restaurant' : 'Create Restaurant'">Submit</button>
+                    <a th:href="@{/admin/restaurants}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

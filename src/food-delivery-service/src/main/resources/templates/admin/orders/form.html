@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Edit Order' : 'Create Order'">Order Form</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2 th:text="${isEdit} ? 'Edit Order' : 'Create New Order'">Order Form</h2>
+
+            <form th:action="${isEdit} ? @{/admin/orders/update/{id}(id=${order.id})} : @{/admin/orders}" 
+                  th:object="${order}" method="post">
+
+                <div class="form-group">
+                    <label for="userId">Customer *</label>
+                    <select id="userId" th:field="*{userId}" required>
+                        <option value="">Select Customer</option>
+                        <option th:each="user : ${users}" 
+                                th:value="${user.id}" 
+                                th:text="${user.name + ' (' + user.email + ')'}">Customer</option>
+                    </select>
+                    <small>Select the customer placing the order</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="restaurantId">Restaurant *</label>
+                    <select id="restaurantId" th:field="*{restaurantId}" required>
+                        <option value="">Select Restaurant</option>
+                        <option th:each="restaurant : ${restaurants}" 
+                                th:value="${restaurant.id}" 
+                                th:text="${restaurant.name}">Restaurant</option>
+                    </select>
+                    <small>Select the restaurant</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address *</label>
+                    <textarea id="deliveryAddress" th:field="*{deliveryAddress}" required></textarea>
+                    <small>Full delivery address (5-300 characters)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryCity">Delivery City</label>
+                    <input type="text" id="deliveryCity" th:field="*{deliveryCity}">
+                    <small>City for delivery (optional)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryPostalCode">Postal Code</label>
+                    <input type="text" id="deliveryPostalCode" th:field="*{deliveryPostalCode}">
+                    <small>Delivery postal code (optional)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number</label>
+                    <input type="text" id="contactNumber" th:field="*{contactNumber}">
+                    <small>Contact number for delivery (optional)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="totalPrice">Total Price *</label>
+                    <input type="number" id="totalPrice" th:field="*{totalPrice}" 
+                           step="0.01" min="0.01" required>
+                    <small>Total order price</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Order Status *</label>
+                    <select id="status" th:field="*{status}" required>
+                        <option value="PENDING">Pending</option>
+                        <option value="CONFIRMED">Confirmed</option>
+                        <option value="PREPARING">Preparing</option>
+                        <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                        <option value="DELIVERED">Delivered</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
+                    <small>Current order status</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" th:field="*{paymentMethod}">
+                        <option value="">Select Payment Method</option>
+                        <option value="CASH">Cash</option>
+                        <option value="CREDIT_CARD">Credit Card</option>
+                        <option value="DEBIT_CARD">Debit Card</option>
+                        <option value="ONLINE">Online</option>
+                        <option value="UPI">UPI</option>
+                    </select>
+                    <small>Payment method (optional)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentStatus">Payment Status</label>
+                    <select id="paymentStatus" th:field="*{paymentStatus}">
+                        <option value="PENDING">Pending</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="FAILED">Failed</option>
+                        <option value="REFUNDED">Refunded</option>
+                    </select>
+                    <small>Payment status (optional)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="specialInstructions">Special Instructions</label>
+                    <textarea id="specialInstructions" th:field="*{specialInstructions}"></textarea>
+                    <small>Any special instructions for the order (optional)</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" 
+                            th:text="${isEdit} ? 'Update Order' : 'Create Order'">Submit</button>
+                    <a th:href="@{/admin/orders}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+
+            <div style="margin-top: 2rem; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+                <p><strong>Note:</strong> Order items management is simplified in this form. In production, you would typically select food items and quantities through a dynamic interface.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

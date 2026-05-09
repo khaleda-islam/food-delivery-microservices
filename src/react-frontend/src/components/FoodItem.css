@@ -1,0 +1,393 @@
+/**
+ * FoodItem Component Styles
+ * 
+ * Student Name: Khaleda Islam
+ * Student ID: 301504989
+ * Date: April 5, 2026
+ */
+
+/* ==================== Card Container ==================== */
+.food-item {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.food-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.15);
+    border-color: #667eea;
+}
+
+.food-item.unavailable {
+    opacity: 0.6;
+    background: #f5f5f5;
+}
+
+.food-item.unavailable:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ==================== Food Badge ==================== */
+.food-badge {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    font-size: 4em;
+    opacity: 0.1;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ==================== Availability Indicator ==================== */
+.available-indicator,
+.unavailable-indicator {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 1;
+}
+
+.available-indicator {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.unavailable-indicator {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.available-indicator .indicator-dot {
+    background: #4caf50;
+    animation: pulse 2s infinite;
+}
+
+.unavailable-indicator .indicator-dot {
+    background: #f44336;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ==================== Food Image ==================== */
+.food-image {
+    width: 100%;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f0f0f0;
+    margin-top: 30px;
+}
+
+.food-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.food-item:hover .food-image img {
+    transform: scale(1.05);
+}
+
+/* ==================== Food Header ==================== */
+.food-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.food-name {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+    line-height: 1.3;
+    flex: 1;
+}
+
+.food-price {
+    font-size: 1.5em;
+    font-weight: 800;
+    color: #667eea;
+    white-space: nowrap;
+}
+
+/* ==================== Food Category ==================== */
+.food-category {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.category-tag {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* ==================== Food Description ==================== */
+.food-description {
+    font-size: 0.9em;
+    color: #718096;
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ==================== Food Metadata ==================== */
+.food-metadata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.metadata-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85em;
+    color: #4a5568;
+}
+
+.metadata-icon {
+    font-size: 1.2em;
+}
+
+.metadata-text {
+    font-weight: 500;
+}
+
+/* ==================== Dietary Tags ==================== */
+.dietary-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.dietary-tag {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 0.75em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dietary-tag.vegan {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+
+.dietary-tag.vegetarian {
+    background: #fff9c4;
+    color: #f57f17;
+}
+
+/* ==================== Add to Cart Button ==================== */
+.add-to-cart-button {
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.add-to-cart-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.add-to-cart-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.add-to-cart-button:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ==================== Cart Controls ==================== */
+.cart-controls {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quantity-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    background: #f7fafc;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.quantity-selector .qty-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.quantity-selector .qty-btn:hover {
+    background: #764ba2;
+    transform: scale(1.1);
+}
+
+.quantity-selector .qty-btn:active {
+    transform: scale(0.95);
+}
+
+.qty-display {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #2d3748;
+    min-width: 30px;
+    text-align: center;
+}
+
+.confirm-add-button {
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.confirm-add-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(72, 187, 120, 0.4);
+}
+
+.confirm-add-button:active {
+    transform: translateY(0);
+}
+
+/* ==================== Added Feedback ==================== */
+.added-feedback {
+    margin-top: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 700;
+    text-align: center;
+    animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+    .food-item {
+        padding: 16px;
+    }
+
+    .food-name {
+        font-size: 1.1em;
+    }
+
+    .food-price {
+        font-size: 1.3em;
+    }
+
+    .food-image {
+        height: 150px;
+    }
+
+    .food-metadata {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .food-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .food-price {
+        font-size: 1.4em;
+    }
+}

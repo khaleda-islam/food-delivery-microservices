@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders List - Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="content">
+            <h2>Order Management & History</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <a th:href="@{/admin/orders/new}" class="btn btn-success">➕ Create New Order</a>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <form th:action="@{/admin/orders}" method="get" style="display: flex; gap: 1rem; align-items: end;">
+                    <div class="form-group">
+                        <label for="userFilter">Filter by Customer</label>
+                        <select id="userFilter" name="userId" onchange="this.form.submit()">
+                            <option value="">All Customers</option>
+                            <option th:each="user : ${users}" 
+                                    th:value="${user.id}" 
+                                    th:text="${user.name}"
+                                    th:selected="${selectedUserId == user.id}">Customer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="statusFilter">Filter by Status</label>
+                        <select id="statusFilter" name="status" onchange="this.form.submit()">
+                            <option value="">All Statuses</option>
+                            <option value="PENDING" th:selected="${selectedStatus == 'PENDING'}">Pending</option>
+                            <option value="CONFIRMED" th:selected="${selectedStatus == 'CONFIRMED'}">Confirmed</option>
+                            <option value="PREPARING" th:selected="${selectedStatus == 'PREPARING'}">Preparing</option>
+                            <option value="OUT_FOR_DELIVERY" th:selected="${selectedStatus == 'OUT_FOR_DELIVERY'}">Out for Delivery</option>
+                            <option value="DELIVERED" th:selected="${selectedStatus == 'DELIVERED'}">Delivered</option>
+                            <option value="CANCELLED" th:selected="${selectedStatus == 'CANCELLED'}">Cancelled</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User ID</th>
+                        <th>Restaurant ID</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Order Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${#strings.substring(order.id, 0, 8) + '...'}">Order ID</td>
+                        <td th:text="${#strings.substring(order.userId, 0, 8) + '...'}">User ID</td>
+                        <td th:text="${#strings.substring(order.restaurantId, 0, 8) + '...'}">Restaurant ID</td>
+                        <td>$<span th:text="${#numbers.formatDecimal(order.totalPrice, 1, 2)}">0.00</span></td>
+                        <td>
+                            <span th:class="'badge badge-' + ${#strings.toLowerCase(order.status)}" 
+                                  th:text="${order.status}">Status</span>
+                        </td>
+                        <td>
+                            <span th:if="${order.paymentStatus == 'COMPLETED'}" class="badge badge-active">Paid</span>
+                            <span th:if="${order.paymentStatus == 'PENDING'}" class="badge badge-pending">Pending</span>
+                            <span th:if="${order.paymentStatus == 'FAILED'}" class="badge badge-cancelled">Failed</span>
+                        </td>
+                        <td th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}">Date</td>
+                        <td>
+                            <a th:href="@{/admin/orders/{id}(id=${order.id})}" class="btn btn-primary btn-small">View</a>
+                            <a th:href="@{/admin/orders/edit/{id}(id=${order.id})}" class="btn btn-warning btn-small">Edit</a>
+                            <a th:href="@{/admin/orders/delete/{id}(id=${order.id})}" 
+                               class="btn btn-danger btn-small"
+                               onclick="return confirm('Are you sure you want to delete this order?')">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${#lists.isEmpty(orders)}" class="empty-state">
+                <p>No orders found. Create your first order!</p>
+                <a th:href="@{/admin/orders/new}" class="btn btn-primary">Create Order</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

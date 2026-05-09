@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Food Delivery System</title>
+    <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <h1>🍔 Food Delivery Admin Panel</h1>
+        <ul>
+            <li><a th:href="@{/admin}">Dashboard</a></li>
+            <li><a th:href="@{/admin/restaurants}">Restaurants</a></li>
+            <li><a th:href="@{/admin/foods}">Food Items</a></li>
+            <li><a th:href="@{/admin/customers}">Customers</a></li>
+            <li><a th:href="@{/admin/orders}">Orders</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content">
+            <h2>Admin Dashboard</h2>
+            <p>Welcome to the Food Delivery System Admin Panel. Manage your restaurants, food items, customers, and orders from here.</p>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard">
+                <div class="dashboard-card">
+                    <div class="card-icon">🏪</div>
+                    <h3>Restaurants</h3>
+                    <p>Manage restaurant listings and information</p>
+                    <a th:href="@{/admin/restaurants}" class="btn btn-primary">View Restaurants</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">🍕</div>
+                    <h3>Food Items</h3>
+                    <p>Manage menu items and food listings</p>
+                    <a th:href="@{/admin/foods}" class="btn btn-primary">View Menu</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">👥</div>
+                    <h3>Customers</h3>
+                    <p>Manage customer accounts and profiles</p>
+                    <a th:href="@{/admin/customers}" class="btn btn-primary">View Customers</a>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">📦</div>
+                    <h3>Orders</h3>
+                    <p>View and manage customer orders</p>
+                    <a th:href="@{/admin/orders}" class="btn btn-primary">View Orders</a>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; padding: 1.5rem; background: #f7fafc; border-radius: 8px;">
+                <h3>Quick Actions</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                    <a th:href="@{/admin/restaurants/new}" class="btn btn-success">➕ Add Restaurant</a>
+                    <a th:href="@{/admin/foods/new}" class="btn btn-success">➕ Add Food Item</a>
+                    <a th:href="@{/admin/customers/new}" class="btn btn-success">➕ Add Customer</a>
+                    <a th:href="@{/admin/orders/new}" class="btn btn-success">➕ Create Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
